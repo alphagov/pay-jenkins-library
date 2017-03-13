@@ -23,3 +23,16 @@ Jenkinsfile.
     gitTag(tag, annotation)
 ```
 
+#### Build app
+
+- Builds a docker container, tags and pushes to a registry
+  Only 'app' is required, the rest default to the below
+
+```groovy
+buildApp{
+  app = 'foo'
+  registry = 'docker.io'
+  docker_repo = 'govukpay'
+  push = true
+}
+```
