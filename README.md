@@ -11,3 +11,15 @@ Jenkinsfile.
 ```
 @Library('pay-jenkins-library@<BRANCH_NAME>') _
 ```
+### Functions this Jenkins global library
+
+#### Git tag
+
+- Tags the current git repo with the provided tag
+- Pushes the tag to the remote repository
+- Optional second argument for an annotation
+
+```groovy
+    gitTag(tag, annotation)
+```
+
