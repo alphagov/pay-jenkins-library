@@ -36,3 +36,12 @@ buildApp{
   push = true
 }
 ```
+
+#### Notifications
+
+- Notifies buildStatus via the below:
+  * Slack
+
+```
+sendNotifications("BUILD_STATUS")
+```
