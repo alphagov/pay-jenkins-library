@@ -45,3 +45,11 @@ buildApp{
 ```
 sendNotifications("BUILD_STATUS")
 ```
+
+#### Run end to end test
+
+- Runs e2e tests, pulling docker tag of specific app
+
+```groovy
+runEndToEnd('app', ${env.REQ_COMMIT_ID}-${env.BUILD_NUMBER})
+```
