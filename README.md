@@ -51,5 +51,17 @@ sendNotifications("BUILD_STATUS")
 - Runs e2e tests, pulling docker tag of specific app
 
 ```groovy
-runEndToEnd('app', ${env.REQ_COMMIT_ID}-${env.BUILD_NUMBER})
+runEndToEnd('app')
+```
+
+#### Get current HEAD of branch i.e. GIT_COMMIT
+
+```
+gitCommit()
+```
+
+#### Get current branch name i.e. GIT_BRANCH
+
+```
+gitBranch()
 ```
