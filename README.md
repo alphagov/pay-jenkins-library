@@ -65,3 +65,13 @@ gitCommit()
 ```
 gitBranch()
 ```
+
+#### Deploy a microservice to an environment
+
+- Deploys a microservice to an environment by triggering
+  the deploy job passing in params.
+  `tag` is optional, defaults to 'latest-master'
+
+```
+deploy('microservice', 'aws_account', tag)
+```
