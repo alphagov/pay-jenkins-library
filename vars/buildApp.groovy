@@ -11,8 +11,10 @@ def call(body) {
     def docker_repo =  config.docker_repo ?: "govukpay" ;
     def push_image =  config.push_image ?: true ;
     def app = config.app ;
-    def build_flags = ""
-    def version = "${env.REQ_COMMIT_ID}-${env.BUILD_NUMBER}"
+    def build_flags = "";
+    def commit = gitCommit();
+    def branch = gitBranch();
+    def version = "${commit}-${env.BUILD_NUMBER}"
 
     if (env.DISABLE_DOCKER_CACHE == true) {
         build_flags = "--no-cache --pull"
@@ -26,8 +28,8 @@ def call(body) {
         // see: https://github.com/jenkinsci/docker-workflow-plugin/pull/90
         sh "docker push ${imageName}:${version}"
     }
-    if (env.REQ_BRANCH_NAME == "master" && push_image == true) {
-        sh "docker tag ${imageName}:${version} ${imageName}:latest-${env.REQ_BRANCH_NAME}"
-        sh "docker push ${imageName}:latest-${env.REQ_BRANCH_NAME}"
+    if (branch == "master" && push_image == true) {
+        sh "docker tag ${imageName}:${version} ${imageName}:latest-${commit}"
+        sh "docker push ${imageName}:latest-${branch}"
     }
 }
