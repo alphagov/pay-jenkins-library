@@ -6,9 +6,12 @@ def call(String app, String tag = null) {
         tag = "${commit}-${env.BUILD_NUMBER}"
     }
 
+    run_zap_tests = (gitBranch == "master") ? true : false
+
     build job: 'run-end-to-end-tests',
         parameters:[
           string(name: 'MODULE_NAME', value: app),
-          string(name: 'MODULE_TAG', value: tag)
+          string(name: 'MODULE_TAG', value: tag),
+          booleanParam(name: 'RUN_ZAP_TESTS', value: run_zap_tests)
         ]
 }
