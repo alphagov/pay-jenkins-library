@@ -9,7 +9,9 @@ If you want to have Jenkinsfile pull in a branch of this repo, add the below to 
 Jenkinsfile.
 
 ```
-@Library('pay-jenkins-library@<BRANCH_NAME>') _
+libraries {
+  lib("pay-jenkins-library@master")
+}
 ```
 ### Functions this Jenkins global library
 
