@@ -3,7 +3,7 @@
 def call(String microservice, String aws_profile, String tag = null) {
     tag = tag ?: "latest-master"
     
-    build job: 'deploy-microservice',
+    build job: 'deploy-pipeline-microservice',
         parameters:[
           string(name: 'MICROSERVICE', value: microservice),
           string(name: 'CONTAINER_VERSION', value: tag),
