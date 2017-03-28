@@ -77,3 +77,9 @@ gitBranch()
 ```
 deploy('microservice', 'aws_account', tag)
 ```
+
+## Example microservice build pipeline
+
+![microservice build pipeline](docs/jenkins2pipeline.png)
+
+
