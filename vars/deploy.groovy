@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def call(String microservice, String aws_profile, String tag = null, boolean tagAfterDeployment = false) {
-    tag = tag ?: "latest-master"
+    tag = tag ?: gitCommit()
     
     build job: 'deploy-pipeline-microservice',
         parameters:[
