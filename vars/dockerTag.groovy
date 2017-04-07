@@ -23,7 +23,7 @@ def call(body) {
         // see: https://github.com/jenkinsci/docker-workflow-plugin/pull/90
         sh "docker push ${imageName}:${version}"
 
-        sh "docker tag ${imageName}:${version} govukpay/frontend:${commit}"
+        sh "docker tag ${imageName}:${version} ${imageName}:${commit}"
         sh "docker push ${imageName}:${commit}"
 
         if (branch == "master") {
