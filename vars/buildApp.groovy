@@ -22,14 +22,4 @@ def call(body) {
 
     def imageName = "${registry}/${docker_repo}/${app}"
     sh "docker build -t ${build_flags} ${imageName}:${version} ."
-
-    if (push_image == true) {
-        // we should use img.tag / img.push here but there is an open issue
-        // see: https://github.com/jenkinsci/docker-workflow-plugin/pull/90
-        sh "docker push ${imageName}:${version}"
-    }
-    if (branch == "master" && push_image == true) {
-        sh "docker tag ${imageName}:${version} ${imageName}:latest-${commit}"
-        sh "docker push ${imageName}:latest-${branch}"
-    }
 }
