@@ -6,7 +6,7 @@ def call(String app, String tag = null) {
         tag = "${commit}-${env.BUILD_NUMBER}"
     }
 
-    run_zap_tests = isBranchMaster()
+    run_zap_tests = commit == getMasterHeadCommit()
 
     build job: 'run-end-to-end-tests',
         parameters:[
