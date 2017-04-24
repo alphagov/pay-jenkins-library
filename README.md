@@ -62,16 +62,10 @@ runEndToEnd('app')
 gitCommit()
 ```
 
-#### Get current branch name i.e. GIT_BRANCH
+#### Get the commit hash for master HEAD
 
 ```
-gitBranch()
-```
-
-#### Get if current branch is master
-
-```
-isBranchMaster()
+getMasterHeadCommit()
 ```
 
 #### Deploy a microservice to an environment
