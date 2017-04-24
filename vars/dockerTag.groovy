@@ -12,8 +12,8 @@ def call(body) {
     def push_image =  config.push_image ?: true;
     def app = config.app;
 
-    def commit = gitCommit();
-    def branch = gitBranch();
+    def commit = gitCommit()
+    def onMaster = commit == getMasterHeadCommit()
     def version = "${commit}-${env.BUILD_NUMBER}"
 
     def imageName = "${registry}/${docker_repo}/${app}"
@@ -26,9 +26,9 @@ def call(body) {
         sh "docker tag ${imageName}:${version} ${imageName}:${commit}"
         sh "docker push ${imageName}:${commit}"
 
-        if (branch == "master") {
-            sh "docker tag ${imageName}:${version} ${imageName}:latest-${branch}"
-            sh "docker push ${imageName}:latest-${branch}"
+        if (onMaster) {
+            sh "docker tag ${imageName}:${version} ${imageName}:latest-master"
+            sh "docker push ${imageName}:latest-master"
         }
     }
     
