@@ -13,7 +13,6 @@ def call(body) {
     def app = config.app ;
     def build_flags = "";
     def commit = gitCommit();
-    def branch = gitBranch();
     def version = "${commit}-${env.BUILD_NUMBER}"
 
     if (env.DISABLE_DOCKER_CACHE == true) {

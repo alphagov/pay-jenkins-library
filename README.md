@@ -68,6 +68,12 @@ gitCommit()
 gitBranch()
 ```
 
+#### Get if current branch is master
+
+```
+isBranchMaster()
+```
+
 #### Deploy a microservice to an environment
 
 - Deploys a microservice to an environment by triggering
