@@ -19,6 +19,12 @@ def call(body) {
         build_flags = "--no-cache --pull"
     }
 
+    if (app == "frontend" || app == "selfservice") {
+        def buildImageName = "build-and-test-${app}"
+        sh "docker build --file docker/build_and_test.Dockerfile -t ${buildImageName}:${version} ."
+        sh "docker run --volume \$(pwd):/app ${buildImageName}:${version}"
+    }
+
     def imageName = "${registry}/${docker_repo}/${app}"
     sh "docker build -t ${build_flags} ${imageName}:${version} ."
 }
