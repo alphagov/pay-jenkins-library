@@ -3,7 +3,7 @@
 def call(String microservice, String aws_profile, String tag = null, boolean tagAfterDeployment = false, boolean run_tests = true) {
     tag = tag ?: gitCommit()
     
-    build job: 'deploy-pipeline-microservice',
+    build job: 'deploy-ecs-microservice',
         parameters:[
           string(name: 'MICROSERVICE', value: microservice),
           string(name: 'CONTAINER_VERSION', value: tag),
