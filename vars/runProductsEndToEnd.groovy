@@ -7,6 +7,7 @@ def call(String app, String tag = null) {
     }
 
     run_zap_tests = false
+    run_accept_tests = false
     test_profile = 'end2end-products'
 
     build job: 'run-end-to-end-tests',
@@ -14,6 +15,7 @@ def call(String app, String tag = null) {
           string(name: 'MODULE_NAME', value: app),
           string(name: 'MODULE_TAG', value: tag),
           booleanParam(name: 'RUN_ZAP_TESTS', value: run_zap_tests),
-          string(name: 'TEST_PROFILE', value: test_profile)
+          string(name: 'TEST_PROFILE', value: test_profile),
+          booleanParam(name: 'RUN_ACCEPT_TESTS', value: run_accept_tests)
         ]
 }
