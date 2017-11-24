@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String app, String tag = null, testProfile = 'end2end', zapTests = true, acceptTests = true) {
+def call(String app, String tag = null, testProfile = 'end2end', zapTests = true, acceptTests = true, includes = null, excludes = null) {
     if (tag == null) {
         commit = env.GIT_COMMIT ?: gitCommit()
         tag = "${commit}-${env.BUILD_NUMBER}"
@@ -14,6 +14,8 @@ def call(String app, String tag = null, testProfile = 'end2end', zapTests = true
                     string(name: 'MODULE_TAG', value: tag),
                     booleanParam(name: 'RUN_ZAP_TESTS', value: run_zap_tests),
                     string(name: 'TEST_PROFILE', value: testProfile),
-                    booleanParam(name: 'RUN_ACCEPT_TESTS', value: acceptTests)
+                    booleanParam(name: 'RUN_ACCEPT_TESTS', value: acceptTests),
+                    stringParam(name: 'INCLUDES', value: includes),
+                    stringParam(name: 'EXCLUDES', value: excludes)
             ]
 }
