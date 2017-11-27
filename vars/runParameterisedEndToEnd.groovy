@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String app, String tag = null, testProfile = 'end2end', zapTests = true, acceptTests = true, includes = null, excludes = null) {
+def call(String app, String tag = null, testProfile = 'end2end', zapTests = true, acceptTests = true, includes = '', excludes = '') {
     if (tag == null) {
         commit = env.GIT_COMMIT ?: gitCommit()
         tag = "${commit}-${env.BUILD_NUMBER}"
