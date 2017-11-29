@@ -4,7 +4,7 @@ def call(String microservice, String aws_profile, String tag = null, boolean tag
     tag = tag ?: gitCommit()
 
     smoke_version = 'v1'
-    if (tag != null) {
+    if (smoke_tags != null) {
         smoke_version = 'v2'
     }
 
@@ -15,7 +15,7 @@ def call(String microservice, String aws_profile, String tag = null, boolean tag
           string(name: 'AWS_PROFILE', value: aws_profile),
           booleanParam(name: 'TAG_AFTER_DEPLOYMENT', value: tagAfterDeployment),
           booleanParam(name: 'RUN_TESTS', value: run_tests),
-          booleanParam(name: 'SMOKE_VERSION', value: smoke_version),
-          booleanParam(name: 'SMOKE_TAGS', value: smoke_tags)
+          string(name: 'SMOKE_VERSION', value: smoke_version),
+          string(name: 'SMOKE_TAGS', value: smoke_tags)
         ]
 }
