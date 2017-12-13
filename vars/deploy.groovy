@@ -1,10 +1,10 @@
 #!/usr/bin/env groovy
 
-def call(String microservice, String aws_profile, String tag = null, boolean tagAfterDeployment = false, boolean run_tests = true, smoke_tags = null) {
+def call(String microservice, String aws_profile, String tag = null, boolean tagAfterDeployment = false, boolean run_tests = true, smoke_tags = '') {
     tag = tag ?: gitCommit()
 
     smoke_version = 'v1'
-    if (smoke_tags != null) {
+    if (smoke_tags != '') {
         smoke_version = 'v2'
     }
 
