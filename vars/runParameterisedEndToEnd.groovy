@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String app, String tag = null, testProfile = 'end2end', zapTests = true, acceptTests = true, includes = '', excludes = '') {
+def call(String app, String tag = null, testProfile = 'end2end', zapTests = true, acceptTests = true, includes = '', excludes = '', String jobName = 'run-end-to-end-tests') {
     if (tag == null) {
         commit = env.GIT_COMMIT ?: gitCommit()
         tag = "${commit}-${env.BUILD_NUMBER}"
@@ -8,7 +8,7 @@ def call(String app, String tag = null, testProfile = 'end2end', zapTests = true
 
     run_zap_tests = zapTests && commit == getMasterHeadCommit()
 
-    build job: 'run-end-to-end-tests',
+    build job: jobName,
             parameters: [
                     string(name: 'MODULE_NAME', value: app),
                     string(name: 'MODULE_TAG', value: tag),
