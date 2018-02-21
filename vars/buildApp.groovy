@@ -16,7 +16,7 @@ def call(body) {
     def commit = gitCommit();
     def version = "${commit}-${env.BUILD_NUMBER}"
 
-    if (env.DISABLE_DOCKER_CACHE == true || disable_docker_cache == true) {
+    if (disable_docker_cache == true) {
         build_flags = "--no-cache --pull"
     }
 
@@ -27,5 +27,5 @@ def call(body) {
     }
 
     def imageName = "${registry}/${docker_repo}/${app}"
-    sh "docker build -t ${build_flags} ${imageName}:${version} ."
+    sh "docker build ${build_flags} -t ${imageName}:${version} ."
 }
