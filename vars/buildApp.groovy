@@ -10,12 +10,13 @@ def call(body) {
     def registry = config.registry ?: "docker.io";
     def docker_repo =  config.docker_repo ?: "govukpay" ;
     def push_image =  config.push_image ?: true ;
+    def disable_docker_cache =  config.disable_docker_cache ?: false ;
     def app = config.app ;
     def build_flags = "";
     def commit = gitCommit();
     def version = "${commit}-${env.BUILD_NUMBER}"
 
-    if (env.DISABLE_DOCKER_CACHE == true) {
+    if (env.DISABLE_DOCKER_CACHE == true || disable_docker_cache == true) {
         build_flags = "--no-cache --pull"
     }
 
