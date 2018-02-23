@@ -9,7 +9,7 @@ def call(String microservice, String aws_profile, String tag = null, boolean tag
           string(name: 'MICROSERVICE_IMAGE_TAG', value: tag),
           string(name: 'AWS_PROFILE', value: aws_profile),
           booleanParam(name: 'TAG_AFTER_DEPLOYMENT', value: tagAfterDeployment),
-          booleanParam(name: 'RUN_TESTS', value: run_tests)
+          booleanParam(name: 'RUN_TESTS', value: run_tests),
           string(name: 'SMOKE_TAGS', value: smoke_tags),
           booleanParam(name: 'PROMOTED_ENV', value: promoted_env)
         ]
