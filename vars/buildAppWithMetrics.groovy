@@ -2,7 +2,7 @@
 
 def call(body) {
     // Metrics
-    def metricsUtils = new MetricsUtils()
+    Date startTime = new Date()
 
     // evaluate the body block, and collect configuration into the object
     def config = [:]
@@ -25,30 +25,22 @@ def call(body) {
 
     if (app == "frontend" || app == "selfservice" || app == 'products-ui' || app == 'directdebit-frontend') {
         def buildImageName = "build-and-test-${app}"
-        def Process unitTestsStatusProc = "sh docker build --file docker/build_and_test.Dockerfile -t ${buildImageName}:${version} .".execute()
-        unitTestsStatusProc.waitFor()
+        sh "docker build --file docker/build_and_test.Dockerfile -t ${buildImageName}:${version} ."
         sh "docker run --volume \$(pwd):/app ${buildImageName}:${version}"
 
         Date unitTestsStopTime = new Date()
-        long unitTestsDiff = (unitTestsStopTime.getTime() - metricsUtils.startTime.getTime()) / 1000;
-        if (unitTestsStatusProc.exitValue()) {
-            metricsUtils.postMetricToGraphite("${app}.unit-tests.failure", 1, "new")
-        } else {
-            metricsUtils.postMetricToGraphite("${app}.unit-tests.success", 1, "new")
-            metricsUtils.postMetricToGraphite("${app}.unit-tests.time", $unitTestsDiff, "new")
-        }
+        long unitTestsDiff = (unitTestsStopTime.getTime() - startTime.getTime()) / 1000;
+
+        postMetricToGraphite("${app}.unit-tests.success", 1, "new")
+        postMetricToGraphite("${app}.unit-tests.time", unitTestsDiff, "new")
     }
 
     def imageName = "${registry}/${docker_repo}/${app}"
-    def Process statusProc = "sh docker build ${build_flags} -t ${imageName}:${version} .".execute()
-    statusProc.waitFor()
+    sh "docker build ${build_flags} -t ${imageName}:${version} ."
 
     Date stopTime = new Date()
-    long diff = (stopTime.getTime() - metricsUtils.startTime.getTime()) / 1000;
-    if (statusProc.exitValue()) {
-        metricsUtils.postMetricToGraphite("${app}.docker-build.failure", 1, "new")
-    } else {
-        metricsUtils.postMetricToGraphite("${app}.docker-build.success", 1, "new")
-        metricsUtils.postMetricToGraphite("${app}.docker-build.time", $diff, "new")
-    }
+    long buildDiff = (stopTime.getTime() - startTime.getTime()) / 1000;
+
+    metricsUtils("${app}.docker-build.success", 1, "new")
+    metricsUtils("${app}.docker-build.time", buildDiff, "new")
 }

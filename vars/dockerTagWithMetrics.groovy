@@ -1,8 +1,7 @@
 #!/usr/bin/groovy
 
 def call(body) {
-    // Metrics
-    def metricsUtils = new MetricsUtils()
+    Date startTime = new Date()
 
     // evaluate the body block, and collect configuration into the object
     def config = [:]
@@ -25,27 +24,18 @@ def call(body) {
         // we should use img.tag / img.push here but there is an open issue
         // see: https://github.com/jenkinsci/docker-workflow-plugin/pull/90
         sh "docker push ${imageName}:${version}"
-
         sh "docker tag ${imageName}:${version} ${imageName}:${commit}"
-        def Process pushBuildTagProc = "sh docker push ${imageName}:${commit}".execute()
-        pushBuildTagProc.waitFor()
-
-        if (pushBuildTagProc.exitValue()) {
-            metricsUtils.postMetricToGraphite("${app}.docker-tag.failure", 1, "new")
-        } else {
-            metricsUtils.postMetricToGraphite("${app}.docker-tag.success", 1, "new")
-        }
+        sh "docker push ${imageName}:${commit}"
 
         if (onMaster) {
             sh "docker tag ${imageName}:${version} ${imageName}:latest-master"
-            def Process pushMasterTagProc = "sh docker push ${imageName}:latest-master".execute()
-            pushMasterTagProc.waitFor()
-
-            if (pushMasterTagProc.exitValue()) {
-                metricsUtils.postMetricToGraphite("${app}.docker-master-tag.failure", 1, "new")
-            } else {
-                metricsUtils.postMetricToGraphite("${app}.docker-master-tag.success", 1, "new")
-            }
+            sh "docker push ${imageName}:latest-master"
         }
+
+        Date dockerStopTime = new Date()
+        long dockerDiff = (dockerStopTime.getTime() - startTime.getTime()) / 1000;
+
+        metricsUtils("${app}.docker-tag.success", 1, "new")
+        metricsUtils("${app}.docker-tag.time", dockerDiff, "new")
     }
 }
