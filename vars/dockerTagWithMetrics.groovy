@@ -1,7 +1,5 @@
 #!/usr/bin/groovy
 
-import MetricsUtils
-
 def call(body) {
     // Metrics
     def metricsUtils = new MetricsUtils()
