@@ -31,8 +31,8 @@ def call(body) {
         Date unitTestsStopTime = new Date()
         long unitTestsDiff = (unitTestsStopTime.getTime() - startTime.getTime()) / 1000;
 
-        postMetricToGraphite("${app}.unit-tests.success", 1, "new")
-        postMetricToGraphite("${app}.unit-tests.time", unitTestsDiff, "new")
+        metricsUtils("${app}.unit-tests.success", 1, "new")
+        metricsUtils("${app}.unit-tests.time", unitTestsDiff, "new")
     }
 
     def imageName = "${registry}/${docker_repo}/${app}"
