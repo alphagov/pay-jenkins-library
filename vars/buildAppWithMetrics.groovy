@@ -31,8 +31,8 @@ def call(body) {
         Date unitTestsStopTime = new Date()
         long unitTestsDiff = (unitTestsStopTime.getTime() - startTime.getTime()) / 1000;
 
-        postMetric("${app}.unit-tests.success", 1, "new")
-        postMetric("${app}.unit-tests.time", unitTestsDiff, "new")
+        postMetric("${app}.unit-tests.success", 1)
+        postMetric("${app}.unit-tests.time", unitTestsDiff)
     }
 
     def imageName = "${registry}/${docker_repo}/${app}"
@@ -41,6 +41,6 @@ def call(body) {
     Date stopTime = new Date()
     long buildDiff = (stopTime.getTime() - startTime.getTime()) / 1000;
 
-    postMetric("${app}.docker-build.success", 1, "new")
-    postMetric("${app}.docker-build.time", buildDiff, "new")
+    postMetric("${app}.docker-build.success", 1)
+    postMetric("${app}.docker-build.time", buildDiff)
 }
