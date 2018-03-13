@@ -35,7 +35,7 @@ def call(body) {
         Date dockerStopTime = new Date()
         long dockerDiff = (dockerStopTime.getTime() - startTime.getTime()) / 1000;
 
-        postMetric("${app}.docker-tag.success", 1, "new")
-        postMetric("${app}.docker-tag.time", dockerDiff, "new")
+        postMetric("${app}.docker-tag.success", 1)
+        postMetric("${app}.docker-tag.time", dockerDiff)
     }
 }

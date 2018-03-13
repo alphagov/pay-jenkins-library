@@ -19,6 +19,6 @@ def call(String metricPrefix, long startTimeInMillis = -1) {
       duration = (System.currentTimeMillis() - startTimeInMillis) / 1000;
     }
 
-    postMetric("${metricPrefix}.time", duration, "new")
-    postMetric("${metricPrefix}.success", 1, "new")
+    postMetric("${metricPrefix}.time", duration)
+    postMetric("${metricPrefix}.success", 1)
 }
