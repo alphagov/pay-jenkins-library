@@ -31,7 +31,7 @@ libraries {
   Only 'app' is required, the rest default to the below
 
 ```groovy
-buildApp{
+buildAppWithMetrics {
   app = 'foo'
   registry = 'docker.io'
   docker_repo = 'govukpay'
@@ -76,9 +76,13 @@ getMasterHeadCommit()
 - Deploys a microservice to an environment by triggering
   the deploy job passing in params.
   `tag` is optional, defaults to 'latest-master'
+  `tagAfterDeployment` is optional, defaults to false
+  `run_tests`, is optional, defaults to true
+  `smoke_tags`, is optional, defaults to empty string
+  `promoted_env`, is optional, defaults to true
 
 ```
-deploy('microservice', 'aws_account', tag)
+deployEcs('microservice', 'aws_account', tag, 'tagAfterDeployment', 'run_tests', 'smoke_tags', 'promoted_env')
 ```
 
 ## Example microservice build pipeline
