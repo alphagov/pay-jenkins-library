@@ -7,7 +7,6 @@ def call(String microservice, String aws_profile = "test", String tag = null) {
     parameters: [
       string(name: 'AWS_PROFILE', value: aws_profile),
       string(name: 'REPO', value: microservice),
-      string(name: 'GIT_SHA', value: tag),
-      string(name: 'DEPLOYER', value: ${BUILD_USER})
+      string(name: 'GIT_SHA', value: tag)
     ]
 }
