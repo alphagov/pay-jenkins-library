@@ -3,7 +3,7 @@
 def call(String microservice, String aws_profile = "test", String tag = null) {
   tag = tag ?: gitCommit()
 
-  build job: deploy_notification
+  build job: 'trigger-deploy-notification',
     parameters: [
       string(name: 'AWS_PROFILE', value: aws_profile),
       string(name: 'REPO', value: microservice),
