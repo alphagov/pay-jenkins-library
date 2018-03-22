@@ -1,6 +1,9 @@
 #!/usr/bin/env groovy
 
-def call(String app, String tag = null, String pay_scripts_branch = 'master') {
+def call(
+        String app = null,
+        String tag = null,
+        String pay_scripts_branch = 'master') {
 
     if (tag == null) {
         commit = env.GIT_COMMIT ?: gitCommit()
