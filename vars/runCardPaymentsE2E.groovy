@@ -11,8 +11,8 @@ def call(
         tag = "${commit}-${env.BUILD_NUMBER}"
     }
 
-    if (app == 'scripts' && pay_scripts_branch == null) {
-        pay_scripts_branch = commit
+    if (pay_scripts_branch == null) {
+        pay_scripts_branch = (app == 'scripts') ? commit : 'master'
     }
 
     build job: 'run-end-to-end-card-payment-tests',
