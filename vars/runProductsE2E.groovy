@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def call(
-        String app,
+        String app = null,
         String tag = null,
         String pay_scripts_branch = 'master') {
 
