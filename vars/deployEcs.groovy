@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String microservice, String aws_profile = 'test') {
+def call(String microservice, String aws_profile = 'test', String tag = null) {
     tag = tag ?: gitCommit()
     
     build job: 'deploy-ecs-microservice',
