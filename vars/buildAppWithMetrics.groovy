@@ -17,6 +17,7 @@ def call(body) {
     def app = config.app ;
     def build_flags = "";
     def commit = gitCommit();
+    def branch_name = gitBranchName();
     def version = "${commit}-${env.BUILD_NUMBER}"
 
     if (disable_docker_cache == true) {
@@ -26,7 +27,12 @@ def call(body) {
     if (app == "frontend" || app == "selfservice" || app == 'products-ui' || app == 'directdebit-frontend') {
         def buildImageName = "build-and-test-${app}"
         sh "docker build --file docker/build_and_test.Dockerfile -t ${buildImageName}:${version} ."
-        sh "docker run --volume \$(pwd):/app ${buildImageName}:${version}"
+        withCredentials([
+                string(credentialsId: 'pactBrokerUsername', variable: 'PACT_BROKER_USERNAME'),
+                string(credentialsId: 'pactBrokerPassword', variable: 'PACT_BROKER_PASSWORD')]
+        ) {
+            sh "docker run --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} --env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} --env PACT_CONSUMER_TAG=${branch_name} --volume \$(pwd):/app ${buildImageName}:${version}"
+        }
 
         Date unitTestsStopTime = new Date()
         long unitTestsDiff = (unitTestsStopTime.getTime() - startTime.getTime()) / 1000;
