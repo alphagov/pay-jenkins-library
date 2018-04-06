@@ -32,6 +32,7 @@ def call(body) {
                 string(credentialsId: 'pactBrokerPassword', variable: 'PACT_BROKER_PASSWORD')]
         ) {
             sh "docker run --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} --env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} --env PACT_CONSUMER_TAG=${branch_name} --volume \$(pwd):/app ${buildImageName}:${version}"
+            sh "./run-pact-provider-tests.sh ${PACT_BROKER_USERNAME} ${PACT_BROKER_PASSWORD} ${branch_name}"
         }
 
         Date unitTestsStopTime = new Date()
