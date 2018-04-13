@@ -1,0 +1,33 @@
+version: '2.1'
+
+networks:
+  pymnt_network:
+    external:
+      name: ${NETWORK_NAME}
+services:
+  app_under_test:
+    image: govukpay/${IMAGE}:${TAG}
+    env_file: ${WORKSPACE}/cypress/test.env
+    environment:
+      PORT: 3000
+    networks:
+      pymnt_network:
+        aliases:
+          - app-under-test.internal.pymnt.localdomain
+    mem_limit: 1G
+    logging:
+      driver: "json-file"
+
+  cypress:
+    image: govukpay/cypress:6
+    networks:
+      - pymnt_network
+    environment:
+      CYPRESS_baseUrl: http://app-under-test.internal.pymnt.localdomain:3000
+    volumes:
+      - ${WORKSPACE}/cypress:/app/cypress
+      - ${WORKSPACE}/cypress.json:/app/cypress.json
+    depends_on:
+      - app_under_test
+    logging:
+      driver: "json-file"
