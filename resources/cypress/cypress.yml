@@ -10,6 +10,12 @@ services:
     env_file: ${WORKSPACE}/cypress/test.env
     environment:
       PORT: 3000
+      CONNECTOR_URL: http://pact-stub.internal.pymnt.localdomain:8080
+      DIRECT_DEBIT_CONNECTOR_URL: http://pact-stub.internal.pymnt.localdomain:8080
+      PUBLIC_AUTH_BASE: http://pact-stub.internal.pymnt.localdomain:8080
+      PUBLIC_AUTH_URL: http://pact-stub.internal.pymnt.localdomain:8080/v1/frontend/auth
+      ADMINUSERS_URL: http://pact-stub.internal.pymnt.localdomain:8080
+      PRODUCTS_URL: http://pact-stub.internal.pymnt.localdomain:8080
     networks:
       pymnt_network:
         aliases:
@@ -31,3 +37,21 @@ services:
       - app_under_test
     logging:
       driver: "json-file"
+    mem_limit: 2G
+
+  stub:
+    image: pactfoundation/pact-stub-server
+    networks:
+      pymnt_network:
+        aliases:
+          - pact-stub.internal.pymnt.localdomain
+    entrypoint:
+      - -p
+      - 8080
+      - -d
+      - pacts
+    volumes:
+      - ${WORKSPACE}/pacts:/app/pacts
+    mem_limit: 1G
+
+
