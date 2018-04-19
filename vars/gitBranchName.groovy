@@ -1,6 +1,3 @@
 String call() {
-  if (env.GIT_COMMIT == null) {
-    env.GIT_COMMIT = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
-  }
-  env.GIT_COMMIT
+  sh(script: "git rev-parse HEAD | git branch --contains | sed -n 2p", returnStdout: true).trim()
 }
