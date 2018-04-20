@@ -10,13 +10,13 @@ def call(body) {
     body.delegate = config
     body()
 
-    def registry = config.registry ?: "docker.io";
-    def docker_repo =  config.docker_repo ?: "govukpay" ;
-    def push_image =  config.push_image ?: true ;
-    def disable_docker_cache =  config.disable_docker_cache ?: false ;
-    def app = config.app ;
-    def build_flags = "";
-    def commit = gitCommit();
+    def registry = config.registry ?: "docker.io"
+    def docker_repo = config.docker_repo ?: "govukpay"
+    def disable_docker_cache = config.disable_docker_cache ?: false
+    def app = config.app
+    def build_flags = ""
+    def commit = gitCommit()
+    def branch_name = gitBranchName()
     def version = "${commit}-${env.BUILD_NUMBER}"
 
     if (disable_docker_cache == true) {
@@ -26,8 +26,13 @@ def call(body) {
     if (app == "frontend" || app == "selfservice" || app == 'products-ui' || app == 'directdebit-frontend') {
         def buildImageName = "build-and-test-${app}"
         sh "docker build --file docker/build_and_test.Dockerfile -t ${buildImageName}:${version} ."
-        sh "docker run --volume \$(pwd):/app ${buildImageName}:${version}"
-
+        withCredentials([
+                string(credentialsId: 'pact_broker_username', variable: 'PACT_BROKER_USERNAME'),
+                string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
+        ) {
+            sh "docker run --env PACT_BROKER_URL=https://pact-broker-test.cloudapps.digital --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} " +
+                    "--env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} --env PACT_CONSUMER_TAG=${branch_name} --volume \$(pwd):/app ${buildImageName}:${version}"
+        }
         Date unitTestsStopTime = new Date()
         long unitTestsDiff = (unitTestsStopTime.getTime() - startTime.getTime()) / 1000;
 
