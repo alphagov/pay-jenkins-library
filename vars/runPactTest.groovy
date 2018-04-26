@@ -2,6 +2,7 @@
 def call( String providerProjectName,
           String consumerTag) {
 
+    def providerSha = gitCommit()
     gitClone(gitUriFromProjectName(providerProjectName))
 
     withCredentials([
@@ -11,7 +12,7 @@ def call( String providerProjectName,
         sh """
             export DOCKER_HOST=unix:///var/run/docker.sock
             cd ${providerProjectName}
-            mvn clean test -DrunContractTests -DPACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} -DPACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} -DPACT_CONSUMER_TAG=${consumerTag}
+            mvn clean test -DrunContractTests -DPACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} -DPACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} -DPACT_CONSUMER_TAG=${consumerTag} -DPROVIDER_SHA=${providerSha}
            """
     }
 }
