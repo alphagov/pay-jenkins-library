@@ -7,7 +7,7 @@ def call( String service,
             string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
     ) {
         def resultJson = sh(
-                script: "curl -H \'Accept: application/json, application/hal+json\' --user ${PACT_BROKER_USERNAME}:${PACT_BROKER_PASSWORD} -g -s \'https://pact-broker-test.cloudapps.digital/matrix?q[][pacticipant]=${service}&q[][version]=${gitSha}&latestby=cvp&latest=true&tag=${tag}\'",
+                script: "curl -H \'Accept: application/json, application/hal+json\' --user ${PACT_BROKER_USERNAME}:${PACT_BROKER_PASSWORD} -g -s \'https://pact-broker-test.cloudapps.digital/matrix?q[][pacticipant]=${service}&q[][version]=${gitSha}&latestby=cvp&tag=${tag}\'",
                 returnStdout: true
         ).trim()
         def isDeployable = sh(
