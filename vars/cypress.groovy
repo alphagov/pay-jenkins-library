@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def runTests(String app = null, String tag = null) {
+def call(String app = null, String tag = null) {
 
     commit = env.GIT_COMMIT ?: gitCommit()
     library = new File(getClass().protectionDomain.codeSource.location.path).getParentFile().parent
@@ -13,7 +13,7 @@ def runTests(String app = null, String tag = null) {
 
     sh """
             docker-compose pull --ignore-pull-failures
-            docker-compose up -d --project-name ${COMPOSE_PROJECT_NAME}
+            docker-compose --project-name ${COMPOSE_PROJECT_NAME}  up  -d
             docker-compose exec -T cypress ./ready.sh
             docker-compose exec -T cypress ./run-cypress.sh
        """
