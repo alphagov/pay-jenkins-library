@@ -30,7 +30,7 @@ services:
     mem_limit: 2G
 
   stub:
-    image: pactfoundation/pact-stub-server
+    image: pactfoundation/pact-stub-server:v0.0.10
     entrypoint:
       - "/app/pact-stub-server"
       - "-p"
