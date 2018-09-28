@@ -3,7 +3,7 @@
 def call(
         String app = null,
         String tag = null,
-        String pay_scripts_branch = 'master') {
+        String pay_scripts_branch = null) {
 
     commit = env.GIT_COMMIT ?: gitCommit()
 
