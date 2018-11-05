@@ -8,18 +8,13 @@ def call(
 
     commit = env.GIT_COMMIT ?: gitCommit()
 
-    if (tag == null) {
-        tag = "${commit}-${env.BUILD_NUMBER}"
-    }
-
-    if (pay_scripts_branch == null) {
-        pay_scripts_branch = (app == 'scripts') ? commit : 'master'
-    }
+    git_tag = tag ?: "${commit}-${env.BUILD_NUMBER}"
+    job_pay_scripts_branch = pay_scripts_branch ?: (app == 'scripts') ? commit : 'master'
 
     build job: job_name,
             parameters: [
                     string(name: 'MODULE_NAME', value: app),
-                    string(name: 'MODULE_TAG', value: tag),
-                    string(name: 'PAY_SCRIPTS_BRANCH', value: pay_scripts_branch)
+                    string(name: 'MODULE_TAG', value: git_tag),
+                    string(name: 'PAY_SCRIPTS_BRANCH', value: job_pay_scripts_branch)
             ]
 }
