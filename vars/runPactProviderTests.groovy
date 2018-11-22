@@ -13,7 +13,7 @@ def call( String providerProjectName,
             set -ue pipefail
             cd ${providerProjectName}
             export DOCKER_HOST=unix:///var/run/docker.sock
-            mvn clean test -DrunContractTests -DPACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} -DPACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} -DPACT_CONSUMER_TAG=${consumerTag} -DPROVIDER_SHA=${providerSha}
+            mvn clean test -DrunContractTests -DPACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} -DPACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} -DPACT_CONSUMER_TAG=${consumerTag} -DPROVIDER_SHA=${providerSha} -Dpact.verifier.publishResults=true
            """
     }
 }
