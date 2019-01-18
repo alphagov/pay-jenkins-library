@@ -6,6 +6,7 @@ def call(String smoke_tags, String aws_profile = "test", boolean promoted_env = 
     parameters: [
       string(name: 'AWS_PROFILE', value: aws_profile),
       booleanParam(name: 'PROMOTED_ENV', value: promoted_env),
-      string(name: 'SMOKE_TAGS', value: smoke_tags)
+      string(name: 'SMOKE_TAGS', value: smoke_tags),
+      string(name: 'GIT_BRANCH', value: "check_new_stripe_smoke_test")
     ]
 }
