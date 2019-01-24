@@ -20,23 +20,23 @@ services:
     image: govukpay/cypress:6
     environment:
       CYPRESS_baseUrl: http://app_under_test:3000
+      MOUNTEBANK_URL: http://stub:2525,
+      MOUNTEBANK_IMPOSTERS_PORT: 8080
     volumes:
       - ${WORKSPACE}/test/cypress:/app/test/cypress
       - ${WORKSPACE}/cypress.json:/app/cypress.json
       - ${WORKSPACE}/node_modules:/app/node_modules
       - ${WORKSPACE}/test/fixtures:/app/test/fixtures
+      - ${WORKSPACE}/app/models:/app/app/models
     logging:
       driver: "json-file"
     mem_limit: 2G
 
   stub:
-    image: pactfoundation/pact-stub-server:v0.0.10
+    image: andyrbell/mountebank:1.16.0
     entrypoint:
-      - "/app/pact-stub-server"
       - "-p"
-      - "8080"
-      - "-d"
-      - "pacts"
-    volumes:
-      - ${WORKSPACE}/pacts:/app/pacts
+      - "2525:2525"
+      - "-p"
+      - "8080:8080"
     mem_limit: 1G
