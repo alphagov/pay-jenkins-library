@@ -12,16 +12,13 @@ def call(String app = null, String tag = null) {
     env.TAG = (tag == null) ? "${commit}-${env.BUILD_NUMBER}" : tag
 
     sh """
-            docker-compose pull --ignore-pull-failures
-            docker-compose --project-name ${COMPOSE_PROJECT_NAME} up -d
+            docker-compose pull --ignore-pull-failures --quiet
+            docker-compose up -d
             docker-compose exec -T cypress ./ready.sh
             docker-compose exec -T cypress ./run-cypress.sh
        """
 }
 
 def cleanUp() {
-    sh """
-          docker-compose down || :
-          docker network rm ${env.COMPOSE_PROJECT_NAME} || :
-       """
+    sh "docker-compose down || :"
 }
