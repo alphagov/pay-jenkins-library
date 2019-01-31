@@ -6,12 +6,12 @@ services:
     env_file: ${WORKSPACE}/test/cypress/test.env
     environment:
       PORT: 3000
-      CONNECTOR_URL: http://stub:8080
-      DIRECT_DEBIT_CONNECTOR_URL: http://stub:8080
-      PUBLIC_AUTH_BASE: http://stub:8080
-      PUBLIC_AUTH_URL: http://stub:8080/v1/frontend/auth
-      ADMINUSERS_URL: http://stub:8080
-      PRODUCTS_URL: http://stub:8080
+      CONNECTOR_URL: http://stub:8000
+      DIRECT_DEBIT_CONNECTOR_URL: http://stub:8000
+      PUBLIC_AUTH_BASE: http://stub:8000
+      PUBLIC_AUTH_URL: http://stub:8000/v1/frontend/auth
+      ADMINUSERS_URL: http://stub:8000
+      PRODUCTS_URL: http://stub:8000
     mem_limit: 1G
     logging:
       driver: "json-file"
@@ -20,23 +20,23 @@ services:
     image: govukpay/cypress:6
     environment:
       CYPRESS_baseUrl: http://app_under_test:3000
+      CYPRESS_MOUNTEBANK_URL: http://stub:2525
+      CYPRESS_MOUNTEBANK_IMPOSTERS_PORT: 8000
     volumes:
       - ${WORKSPACE}/test/cypress:/app/test/cypress
       - ${WORKSPACE}/cypress.json:/app/cypress.json
       - ${WORKSPACE}/node_modules:/app/node_modules
       - ${WORKSPACE}/test/fixtures:/app/test/fixtures
+      - ${WORKSPACE}/app/models:/app/app/models
     logging:
       driver: "json-file"
     mem_limit: 2G
 
   stub:
-    image: pactfoundation/pact-stub-server:v0.0.10
-    entrypoint:
-      - "/app/pact-stub-server"
-      - "-p"
-      - "8080"
-      - "-d"
-      - "pacts"
-    volumes:
-      - ${WORKSPACE}/pacts:/app/pacts
+    image: govukpay/mountebank:1.16.0
+    logging:
+      driver: "json-file"
+    ports: 
+      - 8000
+      - 2525
     mem_limit: 1G
