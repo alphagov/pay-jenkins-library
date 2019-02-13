@@ -12,6 +12,7 @@ services:
       PUBLIC_AUTH_URL: http://stub:8000/v1/frontend/auth
       ADMINUSERS_URL: http://stub:8000
       PRODUCTS_URL: http://stub:8000
+      ZENDESK_URL: http://stub:8000
     mem_limit: 1G
     logging:
       driver: "json-file"
