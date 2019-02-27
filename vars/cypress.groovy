@@ -20,5 +20,8 @@ def call(String app = null, String tag = null) {
 }
 
 def cleanUp() {
-    sh "docker-compose down || :"
+    sh """
+            docker-compose logs || :
+            docker-compose down || :
+       """
 }
