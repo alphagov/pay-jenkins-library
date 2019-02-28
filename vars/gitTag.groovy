@@ -7,7 +7,7 @@ def call(String tag, String annotation = null) {
       tag_cmd = tag_cmd.concat("-a -m '${annotation}'")
     }
 
-    sh "git config user.email payments-team@digital.cabinet-office.service.gov.uk"
+    sh "git config user.email payments-team@digital.cabinet-office.gov.uk"
     sh "git config user.name pay-jenkins"
 
     sh tag_cmd
