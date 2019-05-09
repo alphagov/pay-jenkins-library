@@ -6,8 +6,8 @@ def call( String providerProjectName,
             string(credentialsId: 'pact_broker_username', variable: 'PACT_BROKER_USERNAME'),
             string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
     ) {
-        sh """
-            set -ue pipefail
+        sh """#!/bin/bash
+            set -ueo pipefail
             rm -rf ${providerProjectName}
             git clone git@github.com:alphagov/${providerProjectName}.git
             cd ${providerProjectName}
