@@ -6,16 +6,9 @@ def call( String service,
             string(credentialsId: 'pact_broker_username', variable: 'PACT_BROKER_USERNAME'),
             string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
     ) {
-        def resultJson = sh(
-                script: "curl -H \'Accept: application/json, application/hal+json\' --user ${PACT_BROKER_USERNAME}:${PACT_BROKER_PASSWORD} -g -s \'https://pact-broker-test.cloudapps.digital/matrix?q[][pacticipant]=${service}&q[][version]=${gitSha}&latestby=cvp&tag=${tag}\'",
-                returnStdout: true
-        ).trim()
-        def isDeployable = sh(
-                script: "echo \'${resultJson}\' | jq \'.summary.deployable\'",
-                returnStdout: true
-        ).trim()
-        if (isDeployable != "true") {
-            error(resultJson)
-        }
+        echo sh(
+          script: "pact-broker can-i-deploy --pacticipant ${service} --version ${gitSha} --to ${tag} --broker-base-url https://pact-broker-test.cloudapps.digital/ -u ${PACT_BROKER_USERNAME} -p ${PACT_BROKER_PASSWORD}",
+          returnStdout: true
+        )
     }
 }
