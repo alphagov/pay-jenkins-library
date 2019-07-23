@@ -28,7 +28,6 @@ services:
     volumes:
       - ${WORKSPACE}/test/cypress:/app/test/cypress
       - ${WORKSPACE}/cypress.json:/app/cypress.json
-      - ${WORKSPACE}/node_modules:/app/node_modules
       - ${WORKSPACE}/test/fixtures:/app/test/fixtures
       - ${WORKSPACE}/app/models:/app/app/models
     logging:
