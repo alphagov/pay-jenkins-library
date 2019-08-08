@@ -56,12 +56,6 @@ runAppE2E('app-name', 'card,products')
 gitCommit()
 ```
 
-#### Get the commit hash for master HEAD
-
-```
-getMasterHeadCommit()
-```
-
 #### Deploy a microservice to an environment
 
 - Deploys a microservice to an environment by triggering
