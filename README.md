@@ -42,15 +42,6 @@ buildAppWithMetrics {
 *NOTE:* If app is frontend or selfservice, it also builds the test docker container, runs the tests and compiles static assets,
 prior to the standard behaviour
 
-#### Notifications
-
-- Notifies buildStatus via the below:
-  * Slack
-
-```
-sendNotifications("BUILD_STATUS")
-```
-
 #### Run end to end test
 
 - Runs e2e tests, pulling docker tag of specific app
