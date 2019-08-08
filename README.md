@@ -44,12 +44,10 @@ prior to the standard behaviour
 
 #### Run end to end test
 
-- Runs e2e tests, pulling docker tag of specific app
+- Runs specified e2e tests, pulling docker tag of specific app
 
 ```groovy
-runCardPaymentsE2E('app')
-runDirectDebitE2E('app')
-runProductsE2E('app')
+runAppE2E('app-name', 'card,products')
 ```
 
 #### Get current HEAD of branch i.e. GIT_COMMIT
