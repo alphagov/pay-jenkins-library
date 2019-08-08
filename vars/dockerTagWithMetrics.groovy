@@ -15,7 +15,10 @@ def call(body) {
     def app = config.app;
 
     def commit = gitCommit()
-    def onMaster = commit == getMasterHeadCommit()
+    if (env.MASTER_HEAD_COMMIT == null) {
+        env.MASTER_HEAD_COMMIT =   sh(script: "git fetch --no-tags origin +refs/heads/master:refs/remotes/origin/master; git rev-parse origin/master", returnStdout: true).trim()
+    }
+    def onMaster = commit == env.MASTER_HEAD_COMMIT
     def version = "${commit}-${env.BUILD_NUMBER}"
 
     def imageName = "${registry}/${docker_repo}/${app}"
