@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
 
 def call() {
-  runSmokeTest("uk.gov.pay.endtoend.categories.SmokeDirectDebitPayments")
+  runSmokeTest("smoke-directdebit")
 }
