@@ -21,7 +21,7 @@ services:
       driver: "json-file"
 
   cypress:
-    image: govukpay/cypress:6
+    image: cypress/included:3.4.1
     environment:
       CYPRESS_baseUrl: http://app_under_test:3000
       CYPRESS_MOUNTEBANK_URL: http://stub:2525
