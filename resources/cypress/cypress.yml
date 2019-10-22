@@ -14,6 +14,7 @@ services:
       PUBLIC_AUTH_URL: http://stub:8000/v1/frontend/auth
       ADMINUSERS_URL: http://stub:8000
       PRODUCTS_URL: http://stub:8000
+      LEDGER_URL: http://stub:8000
       ZENDESK_URL: http://stub:8000
       WORLDPAY_3DS_FLEX_DDC_TEST_URL: http://stub:8000/shopper/3ds/ddc.html
     mem_limit: 1G
