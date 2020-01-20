@@ -38,10 +38,10 @@ services:
     mem_limit: 2G
 
   stub:
-    image: govukpay/mountebank:2.1.2
+    image: govukpay/mountebank:1.16.0
     logging:
       driver: "json-file"
-    ports:
+    ports: 
       - 8000
       - 2525
     mem_limit: 1G
