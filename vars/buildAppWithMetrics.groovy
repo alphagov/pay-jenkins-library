@@ -18,6 +18,8 @@ def call(body) {
     def commit = gitCommit()
     def branch_name = gitBranchName()
     def version = "${commit}-${env.BUILD_NUMBER}"
+    def user_id = 'id -u'.execute()
+    def group_id = 'id -g'.execute()
 
     if (disable_docker_cache == true) {
         build_flags = "--no-cache --pull"
@@ -30,7 +32,7 @@ def call(body) {
                 string(credentialsId: 'pact_broker_username', variable: 'PACT_BROKER_USERNAME'),
                 string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
         ) {
-            sh "docker run --user jenkins --env PACT_BROKER_URL=https://pact-broker-test.cloudapps.digital --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} " +
+            sh "docker run --user ${user_id}:${group_id} --env PACT_BROKER_URL=https://pact-broker-test.cloudapps.digital --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} " +
                     "--env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} --env PACT_CONSUMER_TAG=${branch_name} --volume \$(pwd):/app ${buildImageName}:${version}"
         }
         Date unitTestsStopTime = new Date()
