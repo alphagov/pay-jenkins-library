@@ -30,7 +30,7 @@ def call(body) {
                 string(credentialsId: 'pact_broker_username', variable: 'PACT_BROKER_USERNAME'),
                 string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
         ) {
-            sh "docker run --env PACT_BROKER_URL=https://pact-broker-test.cloudapps.digital --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} " +
+            sh "docker run --user jenkins --env PACT_BROKER_URL=https://pact-broker-test.cloudapps.digital --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} " +
                     "--env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} --env PACT_CONSUMER_TAG=${branch_name} --volume \$(pwd):/app ${buildImageName}:${version}"
         }
         Date unitTestsStopTime = new Date()
