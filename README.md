@@ -42,35 +42,18 @@ buildAppWithMetrics {
 *NOTE:* If app is frontend or selfservice, it also builds the test docker container, runs the tests and compiles static assets,
 prior to the standard behaviour
 
-#### Notifications
-
-- Notifies buildStatus via the below:
-  * Slack
-
-```
-sendNotifications("BUILD_STATUS")
-```
-
 #### Run end to end test
 
-- Runs e2e tests, pulling docker tag of specific app
+- Runs specified e2e tests, pulling docker tag of specific app
 
 ```groovy
-runCardPaymentsE2E('app')
-runDirectDebitE2E('app')
-runProductsE2E('app')
+runAppE2E('app-name', 'card,products')
 ```
 
 #### Get current HEAD of branch i.e. GIT_COMMIT
 
 ```
 gitCommit()
-```
-
-#### Get the commit hash for master HEAD
-
-```
-getMasterHeadCommit()
 ```
 
 #### Deploy a microservice to an environment
@@ -91,4 +74,8 @@ deployEcs('microservice', 'aws_account', tag, 'tagAfterDeployment', 'run_tests',
 
 ![microservice build pipeline](docs/jenkins2pipeline.png)
 
+## Licence
+[MIT License](LICENCE)
 
+## Responsible Disclosure
+GOV.UK Pay aims to stay secure for everyone. If you are a security researcher and have discovered a security vulnerability in this code, we appreciate your help in disclosing it to us in a responsible manner. We will give appropriate credit to those reporting confirmed issues. Please e-mail gds-team-pay-security@digital.cabinet-office.gov.uk with details of any issue you find, we aim to reply quickly.
