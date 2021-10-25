@@ -15,6 +15,7 @@ services:
       ADMINUSERS_URL: http://stub:8000
       PRODUCTS_URL: http://stub:8000
       LEDGER_URL: http://stub:8000
+      WEBHOOKS_URL: http://stub:8000
       ZENDESK_URL: http://stub:8000
       WORLDPAY_3DS_FLEX_DDC_TEST_URL: http://stub:8000/shopper/3ds/ddc.html
     mem_limit: 1G
