@@ -18,6 +18,7 @@ services:
       WEBHOOKS_URL: http://stub:8000
       ZENDESK_URL: http://stub:8000
       WORLDPAY_3DS_FLEX_DDC_TEST_URL: http://stub:8000/shopper/3ds/ddc.html
+      STRIPE_KYC_ADDITIONAL_DATA_DUE_DATE: "1 November 2021"
     mem_limit: 1G
     logging:
       driver: "json-file"
