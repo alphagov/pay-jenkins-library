@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.6'
 
 services:
   app_under_test:
@@ -22,14 +22,18 @@ services:
       STRIPE_HOST: stub
       STRIPE_PORT: 8000
       STRIPE_PROTOCOL: http
-    mem_limit: 1G
     logging:
       driver: "json-file"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://app_under_test:3000/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   cypress:
-    image: govukpay/cypress:6
+    image: cypress/included:${CYPRESS_VERSION:-"3.1.5"}
     environment:
-      CYPRESS_baseUrl: http://app_under_test:3000
+      CYPRESS_BASE_URL: http://app_under_test:3000
       CYPRESS_MOUNTEBANK_URL: http://stub:2525
       CYPRESS_MOUNTEBANK_IMPOSTERS_PORT: 8000
     volumes:
@@ -40,7 +44,10 @@ services:
       - ${WORKSPACE}/app/models:/app/app/models
     logging:
       driver: "json-file"
-    mem_limit: 2G
+    depends_on:
+      - stub
+      - app_under_test
+    working_dir: /app
 
   stub:
     image: govukpay/mountebank:2.1.2
@@ -49,4 +56,3 @@ services:
     ports:
       - 8000
       - 2525
-    mem_limit: 1G
