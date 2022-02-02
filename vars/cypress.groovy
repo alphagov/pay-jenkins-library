@@ -13,9 +13,7 @@ def call(String app = null, String tag = null) {
 
     sh """
             docker-compose pull --ignore-pull-failures --quiet
-            docker-compose up -d
-            docker-compose exec -T cypress ./ready.sh
-            docker-compose exec -T cypress ./run-cypress.sh
+            docker-compose up --no-color --exit-code-from cypress
        """
 }
 
