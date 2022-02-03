@@ -33,6 +33,7 @@ services:
   cypress:
     image: cypress/included:${CYPRESS_VERSION:-"3.1.5"}
     environment:
+      NO_COLOR: 1
       CYPRESS_BASE_URL: http://app_under_test:3000
       CYPRESS_MOUNTEBANK_URL: http://stub:2525
       CYPRESS_MOUNTEBANK_IMPOSTERS_PORT: 8000
