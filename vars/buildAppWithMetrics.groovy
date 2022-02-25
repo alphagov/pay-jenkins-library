@@ -42,6 +42,7 @@ def call(body) {
 
     def imageName = "${registry}/${docker_repo}/${app}"
     sh "docker build ${build_flags} -t ${imageName}:${version} ."
+    sh "docker build --target=builder -t deps . && docker run --volume \$(pwd)/node_modules:/app/node_modules deps echo 'no op'"
 
     Date stopTime = new Date()
     long buildDiff = (stopTime.getTime() - startTime.getTime()) / 1000;

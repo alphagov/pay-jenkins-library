@@ -51,7 +51,7 @@ services:
     working_dir: /app
 
   stub:
-    image: govukpay/mountebank:2.1.2
+    image: jkris/mountebank:2.4.0
     logging:
       driver: "json-file"
     ports:
