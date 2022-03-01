@@ -31,7 +31,7 @@ services:
       retries: 5
 
   cypress:
-    image: cypress/included:${CYPRESS_VERSION:-"3.1.5"}
+    image: cypress/included:${CYPRESS_VERSION:-"5.0.0"}
     environment:
       NO_COLOR: 1
       CYPRESS_BASE_URL: http://app_under_test:3000
