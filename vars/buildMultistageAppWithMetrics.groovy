@@ -37,7 +37,7 @@ def call(body) {
         " --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME}" +
         " --env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD}" +
         " --env PACT_CONSUMER_TAG=${branch_name}" +
-        " ${buildImageName} /bin/sh -c 'npm test  --forbid-only --forbid-pending && npm run publish-pacts'"
+        " ${buildImageName} /bin/sh -c 'npm test  --forbid-only --forbid-pending && npm run snyk-protect && npm run publish-pacts'"
     }
 
     //copy out node modules for use by cypress container \o/
