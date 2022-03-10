@@ -23,23 +23,6 @@ def call(body) {
         build_flags = "--no-cache --pull"
     }
 
-    if (app == "frontend" || app == "selfservice" || app == 'products-ui' || app == 'directdebit-frontend') {
-        def buildImageName = "build-and-test-${app}"
-        sh "docker build --file docker/build_and_test.Dockerfile -t ${buildImageName}:${version} ."
-        withCredentials([
-                string(credentialsId: 'pact_broker_username', variable: 'PACT_BROKER_USERNAME'),
-                string(credentialsId: 'pact_broker_password', variable: 'PACT_BROKER_PASSWORD')]
-        ) {
-            sh "docker run --env PACT_BROKER_URL=https://pact-broker-test.cloudapps.digital --env PACT_CONSUMER_VERSION=${commit} --env PACT_BROKER_USERNAME=${PACT_BROKER_USERNAME} " +
-                    "--env PACT_BROKER_PASSWORD=${PACT_BROKER_PASSWORD} --env PACT_CONSUMER_TAG=${branch_name} --volume \$(pwd):/app ${buildImageName}:${version}"
-        }
-        Date unitTestsStopTime = new Date()
-        long unitTestsDiff = (unitTestsStopTime.getTime() - startTime.getTime()) / 1000;
-
-        postMetric("${app}.unit-tests.success", 1)
-        postMetric("${app}.unit-tests.time", unitTestsDiff)
-    }
-
     def imageName = "${registry}/${docker_repo}/${app}"
     sh "docker build ${build_flags} -t ${imageName}:${version} ."
 
