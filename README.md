@@ -1,5 +1,7 @@
 # What
 
+> As of March 2022 this repository is no longer maintained by the GOV.UK Pay team. We no longer use Jenkins.
+
 pay-jenkins-library is a Jenkins library helper, intended to be used
 with GOV.UK Pay Jenkins.
 
